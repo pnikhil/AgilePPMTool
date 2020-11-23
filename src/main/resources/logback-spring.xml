@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="logToConsole" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{MM/dd/yyyy HH:mm:ss,EST} - %p[%c] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="logToException" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/ppm-logs/ppm-log-%d{MM-dd-yyyy}-%i-exception.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{MM/dd/yyyy HH:mm:ss,EST} - %p[%c] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="logToRollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>%d{MM/dd/yyyy HH:mm:ss,EST} - %p[%c] %m%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${logDirectory}/${logFileName}-%d{MM-dd-yyyy}-%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+<!--            <maxHistory>${maxHistory}</maxHistory>-->
+<!--            <totalSizeCap>${totalSizeCap}</totalSizeCap>-->
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP"></timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <springProfile name="dev">
+        <logger name="io.fullstackexp.ppm" level="${logLevel}" additivity="false">
+            <appender-ref ref="logToConsole"/>
+            <appender-ref ref="logToRollingFile"/>
+        </logger>
+        <logger name="org.springframework.boot" level="info" additivity="false">
+            <appender-ref ref="logToConsole"/>
+            <appender-ref ref="logToRollingFile"/>
+        </logger>
+        <!-- For running in local -->
+        <logger name="io.fullstackexp.ppm.exception" level="info" additivity="false">
+            <appender-ref ref="logToException"/>
+        </logger>
+    </springProfile>
+
+<!--    <root level="debug">-->
+<!--        <appender-ref ref="logToConsole"/>-->
+<!--    </root>-->
+
+</configuration>

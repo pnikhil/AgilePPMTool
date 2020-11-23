@@ -10,13 +10,14 @@
     </parent>
     <groupId>io.fullstackexp</groupId>
     <artifactId>ppm</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>ppm</name>
+    <version>1.0</version>
+    <name>PPM</name>
     <description>Personal Project Management Tool</description>
 
     <properties>
         <java.version>11</java.version>
     </properties>
+
 
     <dependencies>
         <dependency>
@@ -27,6 +28,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.3</version>
         </dependency>
 
         <dependency>
@@ -57,6 +64,19 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <delimiters>
+                        <delimiter>~</delimiter>
+                    </delimiters>
+                    <useDefaultDelimiters>false</useDefaultDelimiters>
+                </configuration>
             </plugin>
         </plugins>
     </build>
