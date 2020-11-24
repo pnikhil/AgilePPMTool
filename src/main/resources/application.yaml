@@ -11,6 +11,7 @@ server:
   error:
     whitelabel:
       enabled: false
+    include-stacktrace: never
   port: 8080
   servlet:
     context-path: /

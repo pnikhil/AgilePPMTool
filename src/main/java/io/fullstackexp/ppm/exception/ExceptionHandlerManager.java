@@ -5,9 +5,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ServerErrorException;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 
 @CommonsLog
 @ControllerAdvice
@@ -16,7 +19,6 @@ public class ExceptionHandlerManager {
     @ExceptionHandler(ServerErrorException.class)
     public ResponseEntity<?> serverInternalErrorExceptionHandler(HttpServletRequest request, ServerErrorException e) {
         logError(request, e);
-
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ApiError()

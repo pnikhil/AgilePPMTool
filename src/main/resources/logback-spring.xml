@@ -25,7 +25,7 @@
             <pattern>%d{MM/dd/yyyy HH:mm:ss,EST} - %p[%c] %m%n</pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${logDirectory}/${logFileName}-%d{MM-dd-yyyy}-%i.log</fileNamePattern>
+            <fileNamePattern>logs/ppm-logs/ppm-log-%d{MM-dd-yyyy}-%i.log</fileNamePattern>
             <maxFileSize>10MB</maxFileSize>
 <!--            <maxHistory>${maxHistory}</maxHistory>-->
 <!--            <totalSizeCap>${totalSizeCap}</totalSizeCap>-->
