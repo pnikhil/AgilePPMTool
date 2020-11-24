@@ -1,14 +1,15 @@
 package io.fullstackexp.ppm.exception;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDateTime;
+
 @Accessors(chain = true)
 
-@Getter
-@Setter
+@Data
 @ToString
 public class ApiError {
     private int code;

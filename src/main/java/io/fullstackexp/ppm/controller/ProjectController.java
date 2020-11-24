@@ -9,11 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
@@ -31,12 +29,29 @@ public class ProjectController {
     private MapValidationErrorService mapValidationErrorService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createNewProject(@RequestBody @Valid Project project, BindingResult result){
+    public ResponseEntity<?> createNewProject(@RequestBody @Valid Project project, BindingResult result) throws ConstraintViolationException {
         log.info("Running the create new project method");
         ResponseEntity<?> errorMap = mapValidationErrorService.mapValidationService(result);
         if (errorMap != null) return errorMap;
 
         Project responseProject = projectService.saveOrUpdateProject(project);
         return new ResponseEntity<>(responseProject, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{projectId}")
+    public ResponseEntity<?> getProjectById(@PathVariable String projectId){
+        Project project = projectService.findProjectByIdentifier(projectId);
+        return new ResponseEntity<Project>(project, HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public Iterable<Project> getAllProjects(){
+        return projectService.findAllProjects();
+    }
+
+    @DeleteMapping("{projectId}")
+    public ResponseEntity<?> deleteProject(@PathVariable String projectId){
+        projectService.deleteProjectByIdentifier(projectId);
+        return new ResponseEntity<String>("Project with ID " + projectId.toUpperCase() + " was deleted successfully", HttpStatus.ACCEPTED);
     }
 }
