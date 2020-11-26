@@ -19,6 +19,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
+@CrossOrigin
 @RequestMapping("/api/project")
 public class ProjectController {
 
@@ -39,19 +40,21 @@ public class ProjectController {
     }
 
     @GetMapping("/{projectId}")
-    public ResponseEntity<?> getProjectById(@PathVariable String projectId){
+    public ResponseEntity<?> getProjectById(@PathVariable String projectId) {
         Project project = projectService.findProjectByIdentifier(projectId);
         return new ResponseEntity<Project>(project, HttpStatus.OK);
     }
 
     @GetMapping("/all")
-    public Iterable<Project> getAllProjects(){
+    public Iterable<Project> getAllProjects() {
         return projectService.findAllProjects();
     }
 
     @DeleteMapping("{projectId}")
-    public ResponseEntity<?> deleteProject(@PathVariable String projectId){
+    public ResponseEntity<?> deleteProject(@PathVariable String projectId) {
         projectService.deleteProjectByIdentifier(projectId);
         return new ResponseEntity<String>("Project with ID " + projectId.toUpperCase() + " was deleted successfully", HttpStatus.ACCEPTED);
     }
+
+
 }
