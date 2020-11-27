@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from "prop-types"
 import {connect} from "react-redux"
 import {createProject} from "../../actions/projectAction";
+import classnames from "classnames"
 
 class AddProject extends Component {
 
@@ -13,7 +14,8 @@ class AddProject extends Component {
             projectIdentifier: "",
             description: "",
             startDate: "",
-            endDate: ""
+            endDate: "",
+            errors: {}
         }
 
         this.onChange = this.onChange.bind(this);
@@ -21,7 +23,10 @@ class AddProject extends Component {
     }
 
     //life-cycle hooks
-    componentWillReceiveProps(nextProps, nextContext) {
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.errors) {
+            this.setState({errors: nextProps.errors});
+        }
     }
 
     //life cycle hooks
@@ -29,14 +34,14 @@ class AddProject extends Component {
         this.setState({[e.target.name]: e.target.value});
     };
 
-    onSubmit(e){
+    onSubmit(e) {
         e.preventDefault();
         const newProject = {
-                projectName: this.state.projectName,
-                projectIdentifier: this.state.projectIdentifier,
-                description: this.state.description,
-                startDate: this.state.startDate,
-                endDate: this.state.endDate
+            projectName: this.state.projectName,
+            projectIdentifier: this.state.projectIdentifier,
+            description: this.state.description,
+            startDate: this.state.startDate,
+            endDate: this.state.endDate
         };
         console.log(newProject);
 
@@ -48,9 +53,13 @@ class AddProject extends Component {
         let projectName = "projectName";
         let projectIdentifier = "projectIdentifier";
 
+        const {errors} = this.state
+
+
         return (
 
             <div className="project">
+
                 <div className="container">
                     <div className="row">
                         <div className="col-md-8 m-auto">
@@ -58,19 +67,33 @@ class AddProject extends Component {
                             <hr/>
                             <form onSubmit={this.onSubmit}>
                                 <div className="form-group">
-                                    <input type="text" className="form-control form-control-lg "
-                                           placeholder="Project Name" onChange={this.onChange} name={projectName}
+                                    <input type="text" className={classnames("form-control form-control-lg", {
+                                        "is-invalid": errors.projectName
+                                    })} placeholder="Project Name" onChange={this.onChange} name={projectName}
                                            value={this.state.projectName}/>
+                                    {errors.projectName && (
+                                        <div class="invalid-feedback">{errors.projectName}</div>
+                                    )}
                                 </div>
                                 <div className="form-group">
-                                    <input type="text" className="form-control form-control-lg"
+                                    <input type="text" className={classnames("form-control form-control-lg", {
+                                        "is-invalid": errors.projectIdentifier
+                                    })}
                                            placeholder="Unique Project ID" onChange={this.onChange}
                                            name={projectIdentifier} value={this.state.projectIdentifier}/>
+                                    {errors.projectIdentifier && (
+                                        <div class="invalid-feedback">{errors.projectIdentifier}</div>
+                                    )}
                                 </div>
                                 <div className="form-group">
-                                    <textarea className="form-control form-control-lg"
+                                    <textarea className={classnames("form-control form-control-lg", {
+                                        "is-invalid": errors.description
+                                    })}
                                               onChange={this.onChange} placeholder="Project Description"
                                               value={this.state.description} name={description}></textarea>
+                                    {errors.description && (
+                                        <div class="invalid-feedback">{errors.description}</div>
+                                    )}
                                 </div>
                                 <h6>Start Date</h6>
                                 <div className="form-group">
@@ -98,7 +121,7 @@ AddProject.propTypes = {
     errors: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state =>({
+const mapStateToProps = state => ({
     errors: state.errors
 })
-export default connect(null, {createProject})(AddProject);
+export default connect(mapStateToProps, {createProject})(AddProject);
