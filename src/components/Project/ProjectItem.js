@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import { faFlag, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {faFlag, faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
@@ -8,6 +8,10 @@ import {deleteProject} from "../../actions/projectAction";
 
 
 class ProjectItem extends Component {
+    onDeleteClick = id => {
+        this.props.deleteProject(id);
+    };
+
     render() {
         const {project} = this.props;
         return (
@@ -25,19 +29,22 @@ class ProjectItem extends Component {
                             <ul className="list-group">
                                 <a href="#">
                                     <li className="list-group-item board">
-                                        <FontAwesomeIcon icon={faFlag} /> Project Board
+                                        <FontAwesomeIcon icon={faFlag}/> Project Board
                                     </li>
                                 </a>
                                 <Link to={`/updateProject/${project.projectIdentifier}`}>
                                     <li className="list-group-item update">
-                                        <i className="pr-1 fa fa-edit"> <FontAwesomeIcon icon={faEdit} /> Update Project Info</i>
+                                        <i className="pr-1 fa fa-edit"> <FontAwesomeIcon icon={faEdit}/> Update Project
+                                            Info</i>
                                     </li>
                                 </Link>
-                                <a href="">
-                                    <li className="list-group-item delete">
-                                        <i className="pr-1 fa fa-minus-circle"> <FontAwesomeIcon icon={faTrash} /> Delete Project</i>
-                                    </li>
-                                </a>
+
+                                <li className="list-group-item delete"
+                                    onClick={this.onDeleteClick.bind(this, project.projectIdentifier)}>
+                                    <i className="pr-1 fa fa-minus-circle"> <FontAwesomeIcon icon={faTrash}/> Delete
+                                        Project</i>
+                                </li>
+
                             </ul>
                         </div>
                     </div>
@@ -47,4 +54,11 @@ class ProjectItem extends Component {
     }
 }
 
-export default connect(null, {deleteProject})(ProjectItem);
+ProjectItem.propTypes = {
+    deleteProject: PropTypes.func.isRequired
+};
+
+export default connect(
+    null,
+    { deleteProject }
+)(ProjectItem);
