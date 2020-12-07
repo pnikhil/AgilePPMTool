@@ -53,17 +53,16 @@ class AddProject extends Component {
         let projectName = "projectName";
         let projectIdentifier = "projectIdentifier";
 
-        const {errors} = this.state
+        const {errors} = this.state;
 
 
         return (
 
             <div className="project">
-
                 <div className="container">
                     <div className="row">
                         <div className="col-md-8 m-auto">
-                            <h5 className="display-4 text-center">Create Project form</h5>
+                            <h5 className="display-4 text-center">Create Project Form</h5>
                             <hr/>
                             <form onSubmit={this.onSubmit}>
                                 <div className="form-group">

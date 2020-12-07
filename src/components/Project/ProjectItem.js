@@ -1,6 +1,12 @@
 import React, {Component} from 'react';
 import { faFlag, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {Link} from "react-router-dom";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {deleteProject} from "../../actions/projectAction";
+
+
 class ProjectItem extends Component {
     render() {
         const {project} = this.props;
@@ -22,11 +28,11 @@ class ProjectItem extends Component {
                                         <FontAwesomeIcon icon={faFlag} /> Project Board
                                     </li>
                                 </a>
-                                <a href="#">
+                                <Link to={`/updateProject/${project.projectIdentifier}`}>
                                     <li className="list-group-item update">
                                         <i className="pr-1 fa fa-edit"> <FontAwesomeIcon icon={faEdit} /> Update Project Info</i>
                                     </li>
-                                </a>
+                                </Link>
                                 <a href="">
                                     <li className="list-group-item delete">
                                         <i className="pr-1 fa fa-minus-circle"> <FontAwesomeIcon icon={faTrash} /> Delete Project</i>
@@ -41,4 +47,4 @@ class ProjectItem extends Component {
     }
 }
 
-export default ProjectItem;
+export default connect(null, {deleteProject})(ProjectItem);
